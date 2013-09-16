@@ -1,0 +1,37 @@
+{
+  "thead": [
+
+    {
+      "id": "#",
+      "title": "title",
+      "url": "url",
+      "target": "_blank|_self"
+    }
+
+  ],
+
+  "tbody": [
+
+    {
+      "id": "1",
+      "title": "Yahoo! JAPAN",
+      "url": "http://www.yahoo.co.jp/",
+      "target": "_blank"
+    },
+
+    {
+      "id": "2",
+      "title": "Google",
+      "url": "http://www.google.co.jp/",
+      "target": "_blank"
+    },
+
+    {
+      "id": "3",
+      "title": "livedoor",
+      "url": "http://www.livedoor.com/",
+      "target": "_self"
+    }
+
+  ]
+}
