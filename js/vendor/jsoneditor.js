@@ -26,6 +26,10 @@ function showPath(path) {
     $('#path').text(path);
 }
 
+function updateJSONEditor() {
+    $('#editor').jsonEditor(json, { change: updateJSON, propertyclick: showPath });
+}
+
 function changeJSON() {
     $('#json').change(function() {
         var val = $('#json').val();    
@@ -37,36 +41,42 @@ function changeJSON() {
             json = {};
         }
         
-        $('#editor').jsonEditor(json, { change: updateJSON, propertyclick: showPath });
+        updateJSONEditor();
+
     });
 }
 
 function uploadFile() {
     window.addEventListener('DOMContentLoaded', function() {
-      document.querySelector("#btnupload").addEventListener('change', function(e) {
-        if (window.File) {
-          var input = document.querySelector('#btnupload').files[0];
-          var reader = new FileReader();
-          reader.onload = function(e) {
-            $('#json').val(reader.result).change();
-          };
-          reader.readAsText(input, 'UTF-8');
-        }
-      }, true);
+        var btnupload = document.getElementById("btnupload")
+        btnupload.addEventListener('change', function (e) {
+            if (window.File) {
+                var input = btnupload.files[0];
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                  $('#json').val(reader.result).change();
+                };
+                reader.readAsText(input, 'UTF-8');
+            }
+        }, true);
     });
 }
 
 function downloadFile() {
-    document.getElementById("btndownload").addEventListener("click", function (e) {
+    var btndownload = document.getElementById("btndownload")
+    btndownload.addEventListener("click", function (e) {
         var text = document.getElementById("json").value;
         blob = new Blob([text],{type: 'text/plain'});
+
         var label = document.createTextNode("Download");
         var disp = document.getElementById("disp");
+        
         if (window.URL) {
             blobURLref = window.URL.createObjectURL(blob)
         } else if (window.webkitURL) {
             blobURLref = window.webkitURL.createObjectURL(blob)
         }
+        
         $('#btndownload').attr('href',blobURLref);
         $('#btndownload').attr('target','_blank');
         $('#btndownload').attr('download',"data.json");
@@ -82,7 +92,7 @@ function clickRESTfulAPI() {
             jsonp: $('#rest-callback').val(),
             success: function(data) {
                 json = data;
-                $('#editor').jsonEditor(json, { change: updateJSON, propertyclick: showPath });
+                updateJSONEditor();
                 printJSON();
             },
             error: function() {
@@ -107,7 +117,7 @@ function readyJSON() {
     clickExpander();
 
     printJSON();
-    $('#editor').jsonEditor(json, { change: updateJSON, propertyclick: showPath });
+    updateJSONEditor();
 }
 
 $(document).ready(function() {
