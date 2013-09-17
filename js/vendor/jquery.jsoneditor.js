@@ -104,7 +104,8 @@
 
     function stringify(obj) {
         var res;
-        try { res = JSON.stringify(obj); }
+        // try { res = JSON.stringify(obj); }
+        try { res = JSON.stringify(obj, null, "  "); }
         catch (e) { res = 'null'; error('JSON stringify failed.'); }
         return res;
     }
