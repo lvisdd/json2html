@@ -12,7 +12,7 @@ var json = {
 };
 
 function printJSON() {
-    // $('#json').val(JSON.stringify(json, null , "  "));
+    // $('#json').val(JSON.stringify(json));
     $('#json').val(JSON.stringify(json, null , "  "));
 
 }
@@ -27,16 +27,18 @@ function showPath(path) {
 }
 
 function changeJSON() {
-    var val = $('#json').val();
+    $('#json').change(function() {
+        var val = $('#json').val();    
 
-    if (val) {
-        try { json = JSON.parse(val); }
-        catch (e) { alert('Error in parsing json. ' + e); }
-    } else {
-        json = {};
-    }
-    
-    $('#editor').jsonEditor(json, { change: updateJSON, propertyclick: showPath });
+        if (val) {
+            try { json = JSON.parse(val); }
+            catch (e) { alert('Error in parsing json. ' + e); }
+        } else {
+            json = {};
+        }
+        
+        $('#editor').jsonEditor(json, { change: updateJSON, propertyclick: showPath });
+    });
 }
 
 function uploadFile() {
@@ -67,11 +69,11 @@ function downloadFile() {
         }
         $('#btndownload').attr('href',blobURLref);
         $('#btndownload').attr('target','_blank');
-        // $('#btndownload').attr('download',getJsonFileName(gFileNameGpsOrg));
-        $('#btndownload').attr('download',"data.json");    }, false);
+        $('#btndownload').attr('download',"data.json");
+    }, false);
 }
 
-function readyJSON() {
+function clickRESTfulAPI() {
     $('#rest > button').click(function() {
         var url = $('#rest-url').val();
         $.ajax({
@@ -88,17 +90,22 @@ function readyJSON() {
             }
         });
     });
+}
 
-    $('#json').change(function() {
-        changeJSON();
-    });
-
+function clickExpander() {
     $('#expander').click(function() {
         var editor = $('#editor');
         editor.toggleClass('expanded');
         $(this).text(editor.hasClass('expanded') ? 'Collapse' : 'Expand all');
     });
-    
+}
+
+function readyJSON() {
+    clickRESTfulAPI();
+
+    changeJSON();
+    clickExpander();
+
     printJSON();
     $('#editor').jsonEditor(json, { change: updateJSON, propertyclick: showPath });
 }
